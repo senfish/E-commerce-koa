@@ -26,6 +26,11 @@ module.exports = {
     message: '密码不匹配',
     data: null
   },
+  tokenEmptyError: {
+    code: '10106',
+    message: 'token为空',
+    data: null,
+  },
   tokenExpiredError: {
     code: '10101',
     message: 'token已过期',
@@ -60,5 +65,15 @@ module.exports = {
     code: '10302',
     message: '创建商品失败',
     data: null,
+  },
+  updateGoodsError: {
+    code: '10301',
+    message: '更新商品失败',
+    data: null,
+  },
+  invalidGoodsError: {
+    code: '10302',
+    message: '待更新商品不存在',
+    data: null
   }
 }

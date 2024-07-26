@@ -29,7 +29,6 @@ class UserService{
     const res = await User.update(newUser, {
       where: whereOpt
     });
-    console.log('res: ', res);
     // res 如果操作成功的话返回[1], 失败的话[0]
     return res[0] > 0
   }

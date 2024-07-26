@@ -1,7 +1,7 @@
 const path = require('path');
-const { noSupportFileTypeError, createGoodsError } = require('../const/err.type');
+const { noSupportFileTypeError, createGoodsError, updateGoodsError, invalidGoodsError } = require('../const/err.type');
 const fs = require('fs');
-const { createGoods } = require('../service/goods.service');
+const { createGoods, updateGoodsById } = require('../service/goods.service');
 
 class GoodsController {
   
@@ -65,6 +65,24 @@ class GoodsController {
     } catch(err) {
       console.error(err)
       return ctx.app.emit('error', createGoodsError, ctx)
+    }
+  }
+  async update(ctx, next) {
+    // 拿到url上的id，然后去数据库里面去找到对应的数据，然后更新数据库
+    try {
+      const res = await updateGoodsById({id: ctx.params.id, body: ctx.request.body})
+      if(res) {
+        ctx.body = {
+          code: 0,
+          message: '修改成功',
+          data: res
+        }
+      } else { // id可能没找到的情况下
+        return ctx.app.emit('error', invalidGoodsError , ctx)
+      }
+    } catch (err) {
+      console.error('err: ', err);
+      return ctx.app.emit('error', updateGoodsError, ctx);
     }
   }
 }

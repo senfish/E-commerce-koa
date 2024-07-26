@@ -1,10 +1,11 @@
 const jwt = require("jsonwebtoken");
 const { JWT_SECRET } = require("../config/config.default");
-const { tokenExpiredError, jsonWebTokenError, hasNotAdminPermission } = require("../const/err.type");
+const { tokenExpiredError, jsonWebTokenError, hasNotAdminPermission, tokenEmptyError } = require("../const/err.type");
 
 /** 校验token权限 */
 const auth = async (ctx, next) => {
   let { token } = ctx.request.header;
+  if(!token) return ctx.app.emit('error', tokenEmptyError, ctx);
   token = token.replace("Bearer ", "");
   try {
     const user = await jwt.verify(token, JWT_SECRET);
