@@ -2,10 +2,7 @@ const User = require('../model/user.model');
 
 class UserService{
   async createUser(user_name, password) {
-    console.log('password: ', password);
-    console.log('user_name: ', user_name);
     const res = await User.create({user_name, password});
-    console.log('res: ', res);
     return res.dataValues
   }
   async getUserInfo({id, user_name, password, is_admin}) {

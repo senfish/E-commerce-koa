@@ -45,5 +45,20 @@ module.exports = {
     code: '10104',
     message: '上传图片失败',
     data: null,
+  },
+  noSupportFileTypeError: {
+    code: '10105',
+    message: '文件格式错误，只支持png、jpg、jpeg格式的图片',
+    data: null,
+  },
+  goodsFormatError: {
+    code: '10301',
+    message: '参数丢失',
+    data: null,
+  },
+  createGoodsError: {
+    code: '10302',
+    message: '创建商品失败',
+    data: null,
   }
 }
