@@ -1,11 +1,11 @@
 const jwt = require("jsonwebtoken");
 const { JWT_SECRET } = require("../config/config.default");
-const { tokenExpiredError, jsonWebTokenError } = require("../const/err.type");
+const { tokenExpiredError, jsonWebTokenError, hasNotAdminPermission } = require("../const/err.type");
 
+/** 校验token权限 */
 const auth = async (ctx, next) => {
   let { token } = ctx.request.header;
   token = token.replace("Bearer ", "");
-  console.log("newToken: ", token);
   try {
     const user = await jwt.verify(token, JWT_SECRET);
     ctx.state.user = user;
@@ -22,7 +22,17 @@ const auth = async (ctx, next) => {
   }
   await next();
 };
-
+/** 是否有管理员权限 必须放到auth中间件后面*/
+const hasAdminPermission = async (ctx, next) => {
+  const {is_admin} = ctx.state.user;
+  if(!is_admin) {
+    console.error('该用户没有管理员权限', ctx.state.user);
+    return ctx.app.emit('error', hasNotAdminPermission, ctx);
+  }
+  await next();
+}
 module.exports = {
   auth,
+  hasAdminPermission,
+
 };
